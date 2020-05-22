@@ -5,16 +5,21 @@ namespace Alura\Banco\Modelo\Conta;
 use Alura\Banco\Modelo\Conta\Titular;
 use Alura\Banco\Modelo\Endereco;
 
-class Conta {
+// Formating
+    define ('TABBING', "    ");
+    define ('HORIZONTAL_SEPARATOR', "------------------------------------------------------------" . PHP_EOL);
+
+abstract class Conta {
     
     private static $numeroDeContas = 0;
     private Titular $titular;
-    private float $saldo;
+    protected float $saldo;
 
     //  Constructor
         public function __construct(Titular $titular){
-            $this->titular = $titular; //initialization of new Titular
-            $this->saldo = 0; //initialization of the object with a 0 value
+            $this->titular = $titular;
+            $this->saldo = 0;
+
             self::$numeroDeContas++; //counter for every Conta object created
         }
 
@@ -23,21 +28,22 @@ class Conta {
             // Return float of saldo
                 public function getSaldo(string $mode = NULL) {
                     if ($mode == '-p'){
-                        return formatSaldo($this->saldo);
+                        return formatCurrency($this->saldo);
                     }
                     return $this->saldo;
                 }
 
-                private function formatSaldo(string $saldo): string {
-                    return 'R$ ' . number_format($this->saldo,2, ',', '.');
-                }
+
             // Return string of saldo
                 public function getSaldoString(string $mode = NULL): string { //' = NULL' makes the argument optional
                     if ($mode == '-p'){ //if mode is 'print'('-p'), return in currency format
-                        return 'R$ ' . number_format($this->saldo,2, ',', '.');
+                        return self::formatCurrency($this->saldo);
                     }
                     return $this->saldo;
                 }
+            
+        // Tarifa
+            abstract protected function getPercentTarifa(): float;
 
         // Titular
             public function getNomeTitular(): string {
@@ -58,28 +64,36 @@ class Conta {
         // Pretty Print
             //Summary
                 public function printSummary(){
-                    $tabbing = "    ";
-                    $horizontalSeparator = '------------------------------------------------------------';
-                    echo $horizontalSeparator . PHP_EOL;
-                    echo $tabbing . 'Nome: ' . $this->getNomeTitular() . PHP_EOL;
-                    echo $tabbing . 'CPF: ' . $this->getCpfTitular(). PHP_EOL;
-                    echo $tabbing . 'Endereço: ' . $this->getEnderecoTitular()->formatEndereco() . PHP_EOL;
-                    echo $tabbing . 'Saldo formatado: ' . $this->getSaldoString('-p') . PHP_EOL;
-                    echo $horizontalSeparator . PHP_EOL;
+                    echo HORIZONTAL_SEPARATOR;
+                    echo TABBING . 'Nome: ' . $this->getNomeTitular() . PHP_EOL;
+                    echo TABBING . 'CPF: ' . $this->getCpfTitular(). PHP_EOL;
+                    echo TABBING . 'Endereço: ' . $this->getEnderecoTitular()->formatEndereco() . PHP_EOL;
+                    echo TABBING . 'Saldo formatado: ' . $this->getSaldoString('-p') . PHP_EOL;
+                    echo HORIZONTAL_SEPARATOR;
                 }
+
+            protected function formatCurrency(string $value): string {
+                return 'R$ ' . number_format($value,2, ',', '.');
+            }
 
     // Transactions
         public function sacar(float $valorASacar): void {
-            $tarifaSaque = $valorASacar * 0.05;
+            $tarifaSaque = $valorASacar * $this->getPercentTarifa();
             $valorSaque = $valorASacar + $tarifaSaque;
             if ($valorSaque > $this->saldo){
                 echo(
                     'Impossível sacar ' . 
-                    self::formatSaldo($valorASacar) . 
+                    self::formatCurrency($valorASacar) .
+                    ' (+ ' . self::formatCurrency($tarifaSaque) . ')' .
                     ': Saldo insuficiente' . PHP_EOL
                 );
             } else {
                 $this->saldo -= $valorSaque;
+                echo(
+                    'Saque de ' .
+                    self::formatCurrency($valorASacar) .
+                    ' realizado com sucesso' . PHP_EOL
+                );
             }
         }
 
@@ -88,15 +102,6 @@ class Conta {
                 echo 'Valor precisa ser positivo';
             } else {
                 $this->saldo += $valorADepositar;
-            }
-        }
-
-        public function transferir(float $valorATransferir, Conta $contaDestino): void {
-            if ($valorATransferir > $this->saldo){
-                echo 'Saldo indisponível';
-            } else {
-                $this->sacar($valorATransferir);
-                $contaDestino->depositar($valorATransferir);
             }
         }
 
