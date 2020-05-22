@@ -5,10 +5,6 @@ namespace Alura\Banco\Modelo\Conta;
 use Alura\Banco\Modelo\Conta\Titular;
 use Alura\Banco\Modelo\Endereco;
 
-// Formating
-    define ('TABBING', "    ");
-    define ('HORIZONTAL_SEPARATOR', "------------------------------------------------------------" . PHP_EOL);
-
 abstract class Conta {
     
     private static $numeroDeContas = 0;

@@ -1,5 +1,9 @@
 <?php
 
+// Formating
+define ('TABBING', "    ");
+define ('HORIZONTAL_SEPARATOR', "------------------------------------------------------------" . PHP_EOL);
+
 // Executes the given function when failing to load a class
 spl_autoload_register(function (string $nomeClasse){
 
