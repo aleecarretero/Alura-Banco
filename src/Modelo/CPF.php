@@ -2,25 +2,27 @@
 
 namespace Alura\Banco\Modelo;
 
-class CPF{
+class CPF {
+
     private $id;
 
-    public function __construct(string $id){
-        if (self::validarCPF($id)){
-            $this->id = self::formatarCnpjCpf($id);
-        } else {
-            exit("CPF inválido");
+    // Constructor
+        public function __construct(string $id){
+            if (self::validarCPF($id)){
+                $this->id = self::formatarCnpjCpf($id);
+            } else {
+                exit("CPF inválido");
+            }
         }
-    }
 
-    //read
+    // Getters
         public function getId() {
             return $this->id;
         }
     
     
-    //static methods
-        //format CNPJ or CPF
+    // Formatter
+        // CNPJ or CPF
         public static function formatarCnpjCpf($cpnj_cpf){
             $cnpj_cpf = preg_replace("/\D/", '', $cpnj_cpf);
             
@@ -32,21 +34,18 @@ class CPF{
             }
         }
 
+    // Validators
+        // CPF
         private static function validarCPF(string $cpf){
-            //extract numbers
+            // Extract numbers
             $cpf = preg_replace('/\D/', '', $cpf);
 
-            //check length
-            if (strlen($cpf) != 11){
+            // Check length and repetetion
+            if ((strlen($cpf) != 11) || (preg_match('/(\d)\1{10}/', $cpf))){
                 return false;
             }
 
-            //check for repetition
-            if (preg_match('/(\d)\1{10}/', $cpf)){
-                return false;
-            }
-
-            //calculation
+            // Calculation
             for ($trim = 9; $trim < 11; $trim++) {
                 for ($digit = 0, $count = 0; $count < $trim; $count++) {
                     $digit += $cpf{$count} * (($trim + 1) - $count);
