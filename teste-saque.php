@@ -9,50 +9,53 @@ use Alura\Banco\Modelo\Conta\Titular;
 use Alura\Banco\Modelo\Conta\ContaPoupanca;
 use Alura\Banco\Modelo\Conta\ContaCorrente;
 
-$conta = new ContaCorrente(
-    new Titular(
-        new CPF('44938094851'),
-        'Alexandre Carretero',
-        new Endereco(
-            'Osasco',
-            'Novo Osasco',
-            'Via Transversal Sul',
-            '169'
-        )
-        )
-);
 
-echo 'Numero total de contas: ' . Conta::getNumeroDeContas() . PHP_EOL . HORIZONTAL_SEPARATOR;
+// Conta Corrente
+    $contaCorrente = new ContaCorrente(
+        new Titular(
+            new CPF('44938094851'),
+            'Alexandre Carretero',
+            new Endereco(
+                'Osasco',
+                'Novo Osasco',
+                'Via Transversal Sul',
+                '169'
+            )
+            )
+    );
 
-$conta->depositar(500);
-$conta->sacar(200);
+    echo 'Numero total de contas: ' . Conta::getNumeroDeContas() . PHP_EOL . HORIZONTAL_SEPARATOR;
 
-$conta->printSummary();
+    $contaCorrente->depositar(500);
+    $contaCorrente->sacar(200);
 
-$conta->sacar(200);
+    $contaCorrente->printSummary();
 
-$conta->printSummary();
+    $contaCorrente->sacar(277);
 
-$contaPoupanca = new ContaPoupanca(
-    new Titular(
-        new CPF('44938094851'),
-        'Alexandre Carretero',
-        new Endereco(
-            'Osasco',
-            'Novo Osasco',
-            'Via Transversal Sul',
-            '169'
-        )
-        )
-);
+    $contaCorrente->printSummary();
 
-echo 'Numero total de contas: ' . Conta::getNumeroDeContas() . PHP_EOL . HORIZONTAL_SEPARATOR;
+// Conta Poupança
+    $contaPoupanca = new ContaPoupanca(
+        new Titular(
+            new CPF('44938094851'),
+            'Alexandre Carretero',
+            new Endereco(
+                'Osasco',
+                'Novo Osasco',
+                'Via Transversal Sul',
+                '169'
+            )
+            )
+    );
 
-$contaPoupanca->depositar(500);
-$contaPoupanca->sacar(200);
+    echo 'Numero total de contas: ' . Conta::getNumeroDeContas() . PHP_EOL . HORIZONTAL_SEPARATOR;
 
-$contaPoupanca->printSummary();
+    $contaPoupanca->depositar(500);    
+    $contaPoupanca->sacar(200);
 
-$contaPoupanca->sacar(200);
+    $contaPoupanca->printSummary();
 
-$contaPoupanca->printSummary();
+    $contaPoupanca->sacar(287);
+
+    $contaPoupanca->printSummary();
