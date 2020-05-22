@@ -21,11 +21,15 @@ class Conta {
     // Getters
         // Saldo
             // Return float of saldo
-                public function getSaldo(string $mode = NULL): float {
+                public function getSaldo(string $mode = NULL) {
                     if ($mode == '-p'){
-                        return 'R$ ' . number_format($this->saldo,2, ',', '.');
+                        return formatSaldo($this->saldo);
                     }
                     return $this->saldo;
+                }
+
+                private function formatSaldo(string $saldo): string {
+                    return 'R$ ' . number_format($this->saldo,2, ',', '.');
                 }
             // Return string of saldo
                 public function getSaldoString(string $mode = NULL): string { //' = NULL' makes the argument optional
@@ -54,20 +58,28 @@ class Conta {
         // Pretty Print
             //Summary
                 public function printSummary(){
-                    echo '--------------------------------------------------' . PHP_EOL;
-                    echo 'Nome: ' . $this->getNomeTitular() . PHP_EOL;
-                    echo 'CPF: ' . $this->getCpfTitular(). PHP_EOL;
-                    echo 'Endereço: ' . $this->getEnderecoTitular()->formatEndereco() . PHP_EOL;
-                    echo 'Saldo formatado: ' . $this->getSaldoString('-p') . PHP_EOL;
-                    echo '--------------------------------------------------' . PHP_EOL;
+                    $tabbing = "    ";
+                    $horizontalSeparator = '------------------------------------------------------------';
+                    echo $horizontalSeparator . PHP_EOL;
+                    echo $tabbing . 'Nome: ' . $this->getNomeTitular() . PHP_EOL;
+                    echo $tabbing . 'CPF: ' . $this->getCpfTitular(). PHP_EOL;
+                    echo $tabbing . 'Endereço: ' . $this->getEnderecoTitular()->formatEndereco() . PHP_EOL;
+                    echo $tabbing . 'Saldo formatado: ' . $this->getSaldoString('-p') . PHP_EOL;
+                    echo $horizontalSeparator . PHP_EOL;
                 }
 
     // Transactions
         public function sacar(float $valorASacar): void {
-            if ($valorASacar > $this->saldo){
-                echo "Saldo insuficiente";
+            $tarifaSaque = $valorASacar * 0.05;
+            $valorSaque = $valorASacar + $tarifaSaque;
+            if ($valorSaque > $this->saldo){
+                echo(
+                    'Impossível sacar ' . 
+                    self::formatSaldo($valorASacar) . 
+                    ': Saldo insuficiente' . PHP_EOL
+                );
             } else {
-                $this->saldo -= $valorASacar;
+                $this->saldo -= $valorSaque;
             }
         }
 
