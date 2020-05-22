@@ -1,11 +1,18 @@
 <?php
 
-require_once 'src/Pessoa.php';
-require_once 'src/Conta.php';
-require_once 'src/Endereco.php';
-require_once 'src/CPF.php';
-require_once 'src/Titular.php';
+require_once 'src/Modelo/Pessoa.php';
+require_once 'src/Modelo/Funcionario.php';
+require_once 'src/Modelo/Endereco.php';
+require_once 'src/Modelo/CPF.php';
+require_once 'src/Modelo/Conta/Titular.php';
+require_once 'src/Modelo/Conta/Conta.php';
 
+use Alura\Banco\Modelo\CPF;
+use Alura\Banco\Modelo\Endereco;
+use Alura\Banco\Modelo\Funcionario;
+use Alura\Banco\Modelo\Pessoa;
+use Alura\Banco\Modelo\Conta\Conta;
+use Alura\Banco\Modelo\Conta\Titular;
 
 $endereco = new Endereco('Osasco', 'Novo Osasco', 'Via Transversal Sul', '169');
 
@@ -17,7 +24,9 @@ $primeiraConta->sacar(300);
 
 echo 'Numero total de contas: ' . Conta::getNumeroDeContas() . PHP_EOL;
 
-$marcio = new Titular(new CPF('113.708.948-21'), 'Marcio Carretero', $endereco);
+$outroEndereco = new Endereco('Osasco', 'Jardim Cipava', 'Rua Nilo Peçanha', '84');
+
+$marcio = new Titular(new CPF('113.708.948-21'), 'Marcio Carretero', $outroEndereco);
 $segundaConta = new Conta($marcio);
 $segundaConta->depositar(1000);
 $segundaConta->sacar(100);

@@ -2,6 +2,9 @@
 
 namespace Alura\Banco\Modelo\Conta;
 
+use Alura\Banco\Modelo\Conta\Titular;
+use Alura\Banco\Modelo\Endereco;
+
 class Conta {
     // Class: defines the data of Conta
     // Abstraction: To use a real concept (conta corrente) as the minimum necessary workable structure
