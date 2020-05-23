@@ -13,7 +13,10 @@ class Autenticador {
                 'Logado com sucesso'
             );
         } else {
-            echo 'Senha incorreta!';
+            echo (
+                HORIZONTAL_SEPARATOR .
+                'Senha incorreta!'
+            );
         }
     }
 }
