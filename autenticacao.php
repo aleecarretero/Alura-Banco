@@ -11,7 +11,7 @@ use Alura\Banco\Modelo\Funcionario\Gerente;
 
 $autenticador = new Autenticador();
 
-$umDiretor = new Gerente(
+$umGerente = new Gerente(
     'Alexandra',
     new CPF('473.718.980-44'),
     9000
@@ -28,5 +28,5 @@ $umTitular = new Titular(
     )
 );
 
-$autenticador->logIn($umDiretor, '4321');
+$autenticador->logIn($umGerente, '4321');
 $autenticador->logIn($umTitular, '4321');
