@@ -38,9 +38,13 @@ class Endereco {
         // Endereco
         public function formatEndereco(): string {
             return 
-            "$this->rua" . " " . 
-            "$this->numero" . ", " . 
-            "$this->bairro" . " - " .
-            "$this->cidade";
+            "{$this->rua}" . ", " . 
+            "{$this->numero}" . ", " . 
+            "{$this->bairro}" . " - " .
+            "{$this->cidade}";
+        }
+        // toString
+        public function __toString(): string {
+            return $this->formatEndereco();
         }
 }
