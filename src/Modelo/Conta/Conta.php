@@ -24,7 +24,7 @@ abstract class Conta {
             // Return float of saldo
                 public function getSaldo(string $mode = NULL) {
                     if ($mode == '-p'){
-                        return formatCurrency($this->saldo);
+                        return self::formatCurrency($this->saldo);
                     }
                     return $this->saldo;
                 }
@@ -59,13 +59,19 @@ abstract class Conta {
 
         // Pretty Print
             //Summary
-                public function printSummary(){
-                    echo HORIZONTAL_SEPARATOR;
-                    echo TABBING . 'Nome: ' . $this->getNomeTitular() . PHP_EOL;
-                    echo TABBING . 'CPF: ' . $this->getCpfTitular(). PHP_EOL;
-                    echo TABBING . 'Endereço: ' . $this->getEnderecoTitular()->formatEndereco() . PHP_EOL;
-                    echo TABBING . 'Saldo formatado: ' . $this->getSaldoString('-p') . PHP_EOL;
-                    echo HORIZONTAL_SEPARATOR;
+                public function getSummary(){
+                    return (
+                        HORIZONTAL_SEPARATOR .
+                        TABBING . 'Nome: ' . $this->getNomeTitular() . PHP_EOL .
+                        TABBING . 'CPF: ' . $this->getCpfTitular(). PHP_EOL .
+                        TABBING . 'Endereço: ' . $this->getEnderecoTitular()->formatEndereco() . PHP_EOL .
+                        TABBING . 'Saldo formatado: ' . $this->getSaldoString('-p') . PHP_EOL .
+                        HORIZONTAL_SEPARATOR
+                    );
+                }
+            // toString
+                public function __toString(): string {
+                    return $this->getSummary();
                 }
 
             protected function formatCurrency(string $value): string {
