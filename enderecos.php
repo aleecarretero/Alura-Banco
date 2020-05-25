@@ -19,3 +19,7 @@ $outroEndereco = new Endereco(
 );
 
 echo $umEndereco;
+echo PHP_EOL;
+echo $umEndereco->numero;
+echo PHP_EOL;
+echo $umEndereco->bairro;
