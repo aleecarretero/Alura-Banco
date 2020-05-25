@@ -24,7 +24,7 @@ abstract class Pessoa {
 
     // Validators
         // Nome
-        protected function validarNome(string $nome) {
+        final protected function validarNome(string $nome) {
             if (strlen($nome) < 5){
                 exit("O nome do titular precisa conter ao menos 5 dígitos!");
             } else {
