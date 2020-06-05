@@ -4,6 +4,8 @@ namespace Alura\Banco\Modelo;
 
 abstract class Pessoa {
 
+    use GettersSetters;
+
     protected string $nome;
     private CPF $cpf;
 

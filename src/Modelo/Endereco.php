@@ -13,6 +13,8 @@ namespace Alura\Banco\Modelo;
 
 final class Endereco {
 
+    use GettersSetters;
+
     private string $cidade;
     private string $bairro;
     private string $rua;
@@ -27,11 +29,6 @@ final class Endereco {
         }
 
     // Getters
-        public function __get(string $attribute) {
-            $method = 'get' . ucfirst($attribute);
-            return $this->$method();
-        }
-
         public function getCidade(): string {
             return $this->cidade;
         }
